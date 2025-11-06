@@ -109,7 +109,7 @@ public class AddVehiculo extends javax.swing.JFrame {
         btnAñadirVehiculo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAñadirVehiculo.setForeground(new java.awt.Color(255, 255, 255));
         btnAñadirVehiculo.setText("AÑADIR VEHICULO");
-        jPanel1.add(btnAñadirVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 420, 220, 50));
+        jPanel1.add(btnAñadirVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 410, 220, 50));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Adjunta fotos del vehiculo");
@@ -149,7 +149,9 @@ public class AddVehiculo extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 14, Short.MAX_VALUE))
         );
 
         pack();

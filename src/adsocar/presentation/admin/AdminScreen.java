@@ -98,6 +98,7 @@ public class AdminScreen extends javax.swing.JFrame {
         btnEntrarAdmin.setBackground(new java.awt.Color(51, 153, 255));
         btnEntrarAdmin.setForeground(new java.awt.Color(255, 255, 255));
         btnEntrarAdmin.setText("Ver todos los usuarios");
+        btnEntrarAdmin.setName("btnVerUsuarios"); // NOI18N
         jPanel3.add(btnEntrarAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 241, 348, 33));
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -121,6 +122,8 @@ public class AdminScreen extends javax.swing.JFrame {
         btnEntrarAdmin2.setBackground(new java.awt.Color(51, 153, 255));
         btnEntrarAdmin2.setForeground(new java.awt.Color(255, 255, 255));
         btnEntrarAdmin2.setText("Añadir  vehiculo ");
+        btnEntrarAdmin2.setToolTipText("");
+        btnEntrarAdmin2.setName("btnAñadirVehiculo"); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel6.setText("Gestión de vehiculos");
@@ -128,6 +131,7 @@ public class AdminScreen extends javax.swing.JFrame {
         btnEntrarAdmin3.setBackground(new java.awt.Color(51, 153, 255));
         btnEntrarAdmin3.setForeground(new java.awt.Color(255, 255, 255));
         btnEntrarAdmin3.setText("Ver catálogo");
+        btnEntrarAdmin3.setName("btnVerCatalogo"); // NOI18N
 
         jLabel7.setText("Controlar catálogo, y añade vehiculos al catálogo");
 
@@ -142,24 +146,22 @@ public class AdminScreen extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(btnEntrarAdmin3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnEntrarAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGap(34, 34, 34))
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(jLabel7))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel6)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,13 +172,13 @@ public class AdminScreen extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEntrarAdmin3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEntrarAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15))
+                .addContainerGap())
         );
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 170, 390, 280));
