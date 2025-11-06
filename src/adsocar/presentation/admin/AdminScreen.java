@@ -34,16 +34,16 @@ public class AdminScreen extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        btnEntrarAdmin = new javax.swing.JButton();
+        btnVerTodosLosUsuarios = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        btnEntrarAdmin2 = new javax.swing.JButton();
+        btnAñadirVehiculo = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        btnEntrarAdmin3 = new javax.swing.JButton();
+        btnVerCatalogo = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -95,11 +95,11 @@ public class AdminScreen extends javax.swing.JFrame {
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnEntrarAdmin.setBackground(new java.awt.Color(51, 153, 255));
-        btnEntrarAdmin.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntrarAdmin.setText("Ver todos los usuarios");
-        btnEntrarAdmin.setName("btnVerUsuarios"); // NOI18N
-        jPanel3.add(btnEntrarAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 241, 348, 33));
+        btnVerTodosLosUsuarios.setBackground(new java.awt.Color(51, 153, 255));
+        btnVerTodosLosUsuarios.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerTodosLosUsuarios.setText("Ver todos los usuarios");
+        btnVerTodosLosUsuarios.setName("btnVerUsuarios"); // NOI18N
+        jPanel3.add(btnVerTodosLosUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 241, 348, 33));
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel4.setText("Gestión de usuarios");
@@ -119,19 +119,19 @@ public class AdminScreen extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 390, 280));
 
-        btnEntrarAdmin2.setBackground(new java.awt.Color(51, 153, 255));
-        btnEntrarAdmin2.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntrarAdmin2.setText("Añadir  vehiculo ");
-        btnEntrarAdmin2.setToolTipText("");
-        btnEntrarAdmin2.setName("btnAñadirVehiculo"); // NOI18N
+        btnAñadirVehiculo.setBackground(new java.awt.Color(51, 153, 255));
+        btnAñadirVehiculo.setForeground(new java.awt.Color(255, 255, 255));
+        btnAñadirVehiculo.setText("Añadir  vehiculo ");
+        btnAñadirVehiculo.setToolTipText("");
+        btnAñadirVehiculo.setName("btnAñadirVehiculo"); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel6.setText("Gestión de vehiculos");
 
-        btnEntrarAdmin3.setBackground(new java.awt.Color(51, 153, 255));
-        btnEntrarAdmin3.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntrarAdmin3.setText("Ver catálogo");
-        btnEntrarAdmin3.setName("btnVerCatalogo"); // NOI18N
+        btnVerCatalogo.setBackground(new java.awt.Color(51, 153, 255));
+        btnVerCatalogo.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerCatalogo.setText("Ver catálogo");
+        btnVerCatalogo.setName("btnVerCatalogo"); // NOI18N
 
         jLabel7.setText("Controlar catálogo, y añade vehiculos al catálogo");
 
@@ -143,25 +143,25 @@ public class AdminScreen extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(btnEntrarAdmin3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEntrarAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(23, 23, 23)
+                        .addComponent(btnVerCatalogo, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addComponent(btnAñadirVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel6))))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,8 +176,8 @@ public class AdminScreen extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEntrarAdmin3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEntrarAdmin2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnVerCatalogo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAñadirVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -185,7 +185,7 @@ public class AdminScreen extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel12.setText("Bienvenido Admin");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, 230, 64));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 80, 230, 64));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -229,9 +229,9 @@ public class AdminScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEntrarAdmin;
-    private javax.swing.JButton btnEntrarAdmin2;
-    private javax.swing.JButton btnEntrarAdmin3;
+    private javax.swing.JButton btnAñadirVehiculo;
+    private javax.swing.JButton btnVerCatalogo;
+    private javax.swing.JButton btnVerTodosLosUsuarios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
