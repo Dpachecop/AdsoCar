@@ -40,7 +40,7 @@ public class AdsoCar {
         
         // 2. Crear un nuevo propietario
         Propietario nuevoProp = new Propietario();
-        nuevoProp.setNombreCompleto("Juan Villegas");
+        nuevoProp.setNombreCompleto("Isacc Bosiio");
         nuevoProp.setIdentificacion("123456789");
         nuevoProp.setNumeroTelefonico("3001234567");
         nuevoProp.setDireccion("Calle Falsa 123");
@@ -68,14 +68,14 @@ public class AdsoCar {
 
         // 5. Crear un nuevo usuario (Cliente)
         Usuario nuevoCliente = new Usuario();
-        nuevoCliente.setNombreUsuario("dani_cliente");
+        nuevoCliente.setNombreUsuario("Saaamuel_Jaraba");
         // En una app real, esto sería un HASH (ej. BCrypt)
         nuevoCliente.setContrasenaHash("micontraseña123"); 
         nuevoCliente.setRol(RolUsuario.CLIENTE);
-        nuevoCliente.setNombreCompleto("Daniel Pacheco");
-        nuevoCliente.setEmail("daniel@correo.com");
-        nuevoCliente.setTelefono("3019876543");
-        nuevoCliente.setDireccion("Av. Siempre Viva 742");
+        nuevoCliente.setNombreCompleto("Saaamuel Jaraba");
+        nuevoCliente.setEmail("samuel@correo.com");
+        nuevoCliente.setTelefono("30198765432");
+        nuevoCliente.setDireccion("Av. Siempre Viva 7424");
 
         // 6. Guardar el usuario
         System.out.println("\nGuardando a: " + nuevoCliente.getNombreUsuario());
@@ -83,14 +83,14 @@ public class AdsoCar {
         System.out.println("Usuario guardado.");
 
         // 7. Buscar al usuario por nombre de usuario
-        System.out.println("\nBuscando al usuario 'dani_cliente':");
-        Optional<Usuario> usuarioEncontrado = usuarioRepo.obtenerPorNombreUsuario("dani_cliente");
+        System.out.println("\nBuscando al usuario 'Saaamuel Jaraba':");
+        Optional<Usuario> usuarioEncontrado = usuarioRepo.obtenerPorNombreUsuario("Saaamuel_Jaraba");
         
         if (usuarioEncontrado.isPresent()) {
             Usuario u = usuarioEncontrado.get();
             System.out.println("¡Encontrado! -> " + u.getNombreCompleto() + " (Rol: " + u.getRol() + ")");
         } else {
-            System.out.println("No se encontró al usuario 'dani_cliente'.");
+            System.out.println("No se encontró al usuario 'Saamuel '.");
         }
 
         System.out.println("\n--- PRUEBA FINALIZADA ---");
