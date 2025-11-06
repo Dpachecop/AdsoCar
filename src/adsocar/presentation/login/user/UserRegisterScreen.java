@@ -31,8 +31,7 @@ public class UserRegisterScreen extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         linkIniciarSesion = new javax.swing.JLabel();
         btnRegistrarCuenta = new javax.swing.JButton();
-        txtContraseña = new javax.swing.JPasswordField();
-        txtEmail = new javax.swing.JTextField();
+        txtTelefono = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -40,14 +39,15 @@ public class UserRegisterScreen extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         logoadsocar1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtNombreCompleto = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
-        txtNombreUsuario = new javax.swing.JPasswordField();
         jLabel7 = new javax.swing.JLabel();
-        txtTelefono = new javax.swing.JPasswordField();
         jLabel9 = new javax.swing.JLabel();
-        txtDireccion = new javax.swing.JPasswordField();
         jLabel10 = new javax.swing.JLabel();
+        txtEmail1 = new javax.swing.JTextField();
+        txtContraseña = new javax.swing.JTextField();
+        txtNombreUsuario = new javax.swing.JTextField();
+        txtNombreCompleto = new javax.swing.JTextField();
+        txtDireccion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,7 +56,7 @@ public class UserRegisterScreen extends javax.swing.JFrame {
 
         linkIniciarSesion.setForeground(new java.awt.Color(153, 153, 153));
         linkIniciarSesion.setText("¿Ya tienes una cuenta? incia sesion");
-        jPanel1.add(linkIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 440, -1, -1));
+        jPanel1.add(linkIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 430, -1, -1));
 
         btnRegistrarCuenta.setBackground(new java.awt.Color(51, 153, 255));
         btnRegistrarCuenta.setForeground(new java.awt.Color(255, 255, 255));
@@ -66,9 +66,8 @@ public class UserRegisterScreen extends javax.swing.JFrame {
                 btnRegistrarCuentaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRegistrarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 390, 280, 40));
-        jPanel1.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 100, 220, 40));
-        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 200, 40));
+        jPanel1.add(btnRegistrarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 370, 280, 40));
+        jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, 230, 40));
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel4.setText("Email:");
@@ -118,37 +117,26 @@ public class UserRegisterScreen extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 490));
 
-        txtNombreCompleto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreCompletoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtNombreCompleto, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, 200, 40));
-
         jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel6.setText("Nombre completo:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 120, 40));
-
-        txtNombreUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreUsuarioActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 170, 220, 40));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 120, 40));
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel7.setText("Nombre usuario:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 170, 120, 40));
-        jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 240, 260, 40));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 160, 120, 40));
 
         jLabel9.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel9.setText("Telefono:");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 240, 120, 40));
-        jPanel1.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 310, 260, 40));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 230, 120, 40));
 
         jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel10.setText("Direccion:");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 310, 120, 40));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 300, 120, 40));
+        jPanel1.add(txtEmail1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 200, 40));
+        jPanel1.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 100, 200, 40));
+        jPanel1.add(txtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 160, 200, 40));
+        jPanel1.add(txtNombreCompleto, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 160, 200, 40));
+        jPanel1.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 300, 230, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -167,14 +155,6 @@ public class UserRegisterScreen extends javax.swing.JFrame {
     private void btnRegistrarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarCuentaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegistrarCuentaActionPerformed
-
-    private void txtNombreCompletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreCompletoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreCompletoActionPerformed
-
-    private void txtNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,11 +196,11 @@ public class UserRegisterScreen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel linkIniciarSesion;
     private javax.swing.JLabel logoadsocar1;
-    private javax.swing.JPasswordField txtContraseña;
-    private javax.swing.JPasswordField txtDireccion;
-    private javax.swing.JTextField txtEmail;
-    private javax.swing.JPasswordField txtNombreCompleto;
-    private javax.swing.JPasswordField txtNombreUsuario;
-    private javax.swing.JPasswordField txtTelefono;
+    private javax.swing.JTextField txtContraseña;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtEmail1;
+    private javax.swing.JTextField txtNombreCompleto;
+    private javax.swing.JTextField txtNombreUsuario;
+    private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }
