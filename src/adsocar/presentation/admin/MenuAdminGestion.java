@@ -8,14 +8,14 @@ package adsocar.presentation.admin;
  *
  * @author USER
  */
-public class MainMenuAdmin extends javax.swing.JFrame {
+public class MenuAdminGestion extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainMenuAdmin.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuAdminGestion.class.getName());
 
     /**
      * Creates new form MainMenuAdmin
      */
-    public MainMenuAdmin() {
+    public MenuAdminGestion() {
         initComponents();
     }
 
@@ -30,7 +30,6 @@ public class MainMenuAdmin extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        btnUsuarios = new javax.swing.JButton();
         btnVehiculos = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -48,13 +47,9 @@ public class MainMenuAdmin extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(0, 102, 204));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnUsuarios.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnUsuarios.setText("USUARIOS");
-        jPanel3.add(btnUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 141, 31));
-
         btnVehiculos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnVehiculos.setText("VEHICULOS");
-        jPanel3.add(btnVehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 141, 31));
+        jPanel3.add(btnVehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 141, 31));
 
         btnSalir.setBackground(new java.awt.Color(255, 51, 51));
         btnSalir.setForeground(new java.awt.Color(255, 255, 255));
@@ -129,12 +124,11 @@ public class MainMenuAdmin extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MainMenuAdmin().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new MenuAdminGestion().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton btnUsuarios;
     private javax.swing.JButton btnVehiculos;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
