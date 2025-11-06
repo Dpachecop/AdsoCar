@@ -8,7 +8,7 @@ import adsocar.domain.enums.RolUsuario;
 import adsocar.domain.repositories.IUsuarioRepository;
 import adsocar.infrastructure.repositories.UsuarioRepositoryImpl;
 import adsocar.presentation.admin.AdminScreen; // Pantalla de Admin
-import adsocar.presentation.user.UserScreen;   // Pantalla de Usuario
+import adsocar.presentation.user.UserCatalog;   // Pantalla de Usuario
 import java.util.Optional; // Necesario para el resultado
 import javax.swing.JOptionPane;
 
@@ -187,7 +187,7 @@ private IUsuarioRepository usuarioRepo;
             if (usuario.getRol() == RolUsuario.ADMINISTRADOR) {
                 new AdminScreen().setVisible(true);
             } else {
-                new UserScreen().setVisible(true);
+                new UserCatalog().setVisible(true);
             }
             this.dispose(); // Cierra la ventana de login
 

@@ -8,14 +8,14 @@ package adsocar.presentation.user;
  *
  * @author danielpacheco
  */
-public class UserScreen extends javax.swing.JFrame {
+public class UserCatalog extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UserScreen.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UserCatalog.class.getName());
 
     /**
      * Creates new form UserScreen
      */
-    public UserScreen() {
+    public UserCatalog() {
         initComponents();
     }
 
@@ -66,7 +66,7 @@ public class UserScreen extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new UserScreen().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new UserCatalog().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
