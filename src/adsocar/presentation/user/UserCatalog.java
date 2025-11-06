@@ -3,6 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.user;
+import adsocar.domain.entities.Cita;
+import adsocar.domain.entities.Propietario;
+import adsocar.domain.entities.Usuario;
+import adsocar.domain.entities.Vehiculo;
+import adsocar.domain.enums.EstadoCita;
+import adsocar.domain.repositories.ICitaRepository;
+import adsocar.domain.repositories.IPropietarioRepository;
+import adsocar.infrastructure.repositories.CitaRepositoryImpl;
+import adsocar.infrastructure.repositories.PropietarioRepositoryImpl;
+import java.awt.Image;
+import java.time.LocalDateTime;
+import java.util.Optional;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,12 +25,106 @@ package adsocar.presentation.user;
 public class UserCatalog extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UserCatalog.class.getName());
-
+private Usuario usuario;
+    private Vehiculo vehiculo;
+    private IPropietarioRepository propietarioRepo;
+    private ICitaRepository citaRepo;
     /**
      * Creates new form UserScreen
      */
+    
     public UserCatalog() {
         initComponents();
+        // ESTE CONSTRUCTOR DEBE ESTAR VACÍO (O SOLO CON INITCOMPONENTS)
+        // PARA QUE EL DISEÑADOR FUNCIONE.
+    }
+    
+    
+    public UserCatalog(Usuario usuario, Vehiculo vehiculo) {
+        initComponents();
+        this.usuario = usuario;
+        this.vehiculo = vehiculo;
+        this.propietarioRepo = new PropietarioRepositoryImpl();
+        this.citaRepo = new CitaRepositoryImpl();
+        
+        // Estilo del botón
+        btnPedirCita.setOpaque(true);
+        btnPedirCita.setContentAreaFilled(true);
+        btnPedirCita.setBorderPainted(false);
+        btnPedirCita.setFocusPainted(false);
+        
+        // Conectar la acción del botón
+        btnPedirCita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPedirCitaActionPerformed(evt);
+            }
+        });
+        
+        // Llenar la información en la pantalla
+        mostrarDetalles();
+    }
+    
+    private void mostrarDetalles() {
+        // Cargar Imagen
+        String rutaImagen = "adsocar/assets/carrito_placeholder.png";
+        if (vehiculo.getRutasImagenes() != null && !vehiculo.getRutasImagenes().isEmpty()) {
+            rutaImagen = vehiculo.getRutasImagenes().get(0);
+        }
+        try {
+            ImageIcon icon = new ImageIcon(rutaImagen);
+            // Ajustamos al tamaño del panel (350x310)
+            Image img = icon.getImage().getScaledInstance(350, 310, Image.SCALE_SMOOTH);
+            lblImagenVehiculo.setIcon(new ImageIcon(img));
+        } catch (Exception e) {
+            lblImagenVehiculo.setText("Imagen no disponible");
+        }
+        
+        // Cargar Textos
+        lblMarcaVehiculo.setText(vehiculo.getMarca());
+        lblModeloVehiculo.setText(vehiculo.getModelo());
+        lblAñoVehiculo.setText(String.valueOf(vehiculo.getAnio()));
+        lblKilometrajeVehiculo.setText(String.valueOf(vehiculo.getKilometraje()) + " km");
+        
+        // Obtener nombre del propietario
+        lblPropietario.setText(obtenerNombrePropietario(vehiculo.getPropietarioId()));
+    }
+    
+    private String obtenerNombrePropietario(int id) {
+        try {
+            Optional<Propietario> p = propietarioRepo.obtenerPorId(id);
+            return p.isPresent() ? p.get().getNombreCompleto() : "No disponible";
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.WARNING, "Error al buscar propietario", e);
+            return "Error";
+        }
+    }
+    
+    private void btnPedirCitaActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            // 1. Crear la entidad Cita
+            Cita nuevaCita = new Cita();
+            nuevaCita.setClienteId(this.usuario.getId()); // ID del usuario que inició sesión
+            nuevaCita.setVehiculoId(this.vehiculo.getId()); // ID del vehículo que se está viendo
+            nuevaCita.setFechaSolicitud(LocalDateTime.now()); // La fecha y hora actual
+            nuevaCita.setEstado(EstadoCita.PENDIENTE); // Estado inicial
+            
+            // 2. Guardar en la BD
+            citaRepo.guardar(nuevaCita);
+            
+            // 3. Mostrar éxito y regresar
+            JOptionPane.showMessageDialog(this, 
+                "¡Cita solicitada con éxito! Un administrador la revisará pronto.", 
+                "Cita Enviada", 
+                JOptionPane.INFORMATION_MESSAGE);
+            
+            // Regresamos al catálogo
+            new UserScreen(this.usuario).setVisible(true);
+            this.dispose();
+            
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al solicitar cita", e);
+            JOptionPane.showMessageDialog(this, "Error al guardar la cita: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -34,7 +142,6 @@ public class UserCatalog extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -46,6 +153,7 @@ public class UserCatalog extends javax.swing.JFrame {
         lblAñoVehiculo = new javax.swing.JLabel();
         lblPropietario = new javax.swing.JLabel();
         btnPedirCita = new javax.swing.JButton();
+        lblImagenVehiculo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,9 +204,6 @@ public class UserCatalog extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 70));
 
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 350, 310));
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("Año:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, -1, -1));
@@ -120,16 +225,16 @@ public class UserCatalog extends javax.swing.JFrame {
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 170, -1, -1));
 
         lblMarcaVehiculo.setText("lblMarcaVehiculo");
-        jPanel1.add(lblMarcaVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 140, 140, -1));
+        jPanel1.add(lblMarcaVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 130, 140, -1));
 
         lblKilometrajeVehiculo.setText("lblKilometrajeVehiculo");
-        jPanel1.add(lblKilometrajeVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 180, -1, -1));
+        jPanel1.add(lblKilometrajeVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 170, -1, -1));
 
         lblModeloVehiculo.setText("lblModeloVehiculo");
         jPanel1.add(lblModeloVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 230, -1, -1));
 
         lblAñoVehiculo.setText("lblAñoVehiculo");
-        jPanel1.add(lblAñoVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 280, -1, -1));
+        jPanel1.add(lblAñoVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 280, -1, -1));
 
         lblPropietario.setText("lblPropietario");
         jPanel1.add(lblPropietario, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 320, -1, -1));
@@ -139,16 +244,17 @@ public class UserCatalog extends javax.swing.JFrame {
         btnPedirCita.setForeground(new java.awt.Color(255, 255, 255));
         btnPedirCita.setText("SOLICITAR CITA");
         jPanel1.add(btnPedirCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 373, 440, 40));
+        jPanel1.add(lblImagenVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 350, 280));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
         );
 
         pack();
@@ -192,8 +298,8 @@ public class UserCatalog extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblAñoVehiculo;
+    private javax.swing.JLabel lblImagenVehiculo;
     private javax.swing.JLabel lblKilometrajeVehiculo;
     private javax.swing.JLabel lblMarcaVehiculo;
     private javax.swing.JLabel lblModeloVehiculo;

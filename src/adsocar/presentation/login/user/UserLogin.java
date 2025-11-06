@@ -8,8 +8,8 @@ import adsocar.domain.enums.RolUsuario;
 import adsocar.domain.repositories.IUsuarioRepository;
 import adsocar.infrastructure.repositories.UsuarioRepositoryImpl;
 import adsocar.presentation.admin.AdminScreen; // Pantalla de Admin
-import adsocar.presentation.user.UserCatalog;   // Pantalla de Usuario
-import java.util.Optional; // Necesario para el resultado
+import adsocar.presentation.user.UserScreen;   // <-- MODIFICADO (antes era UserCatalog)
+import java.util.Optional;  
 import javax.swing.JOptionPane;
 
 /**
@@ -25,8 +25,7 @@ private IUsuarioRepository usuarioRepo;
      */
     public UserLogin() {
         initComponents();
-        
-        btnIniciarSesion.setOpaque(true);
+       btnIniciarSesion.setOpaque(true);
         btnIniciarSesion.setContentAreaFilled(true);
         btnIniciarSesion.setBorderPainted(false); // Sin borde visual
         btnIniciarSesion.setFocusPainted(false);
@@ -46,6 +45,8 @@ private IUsuarioRepository usuarioRepo;
          new UserRegisterScreen().setVisible(true);
          this.dispose();
     }
+    
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -153,12 +154,8 @@ private IUsuarioRepository usuarioRepo;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        // TODO add your handling code here:
-        // 1. Recoger los datos
-    // NOTA: Tu formulario pide "Email", pero tu repositorio busca por "nombreUsuario".
-    // Asumiré que el campo "Email" en realidad se usa para el "nombreUsuario".
-    String nombreUsuario = txtUsuario.getText(); //
-    String contrasena = new String(txtContraseña.getPassword()); //
+        String nombreUsuario = txtUsuario.getText(); 
+    String contrasena = new String(txtContraseña.getPassword()); 
 
     if (nombreUsuario.isEmpty() || contrasena.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Debe ingresar usuario y contraseña", "Error", JOptionPane.ERROR_MESSAGE);
@@ -166,10 +163,8 @@ private IUsuarioRepository usuarioRepo;
     }
 
     try {
-        // 2. Buscar al usuario por su nombre de usuario
         Optional<Usuario> usuarioOpt = usuarioRepo.obtenerPorNombreUsuario(nombreUsuario);
 
-        // 3. Verificar si el usuario existe
         if (!usuarioOpt.isPresent()) {
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -177,22 +172,21 @@ private IUsuarioRepository usuarioRepo;
 
         Usuario usuario = usuarioOpt.get();
 
-        // 4. Verificar la contraseña
-        // (Reitero la ADVERTENCIA DE SEGURIDAD: esto compara texto plano)
         if (usuario.getContrasenaHash().equals(contrasena)) {
-            // ¡Login exitoso!
             JOptionPane.showMessageDialog(this, "¡Bienvenido, " + usuario.getNombreCompleto() + "!", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
 
             // 5. Redirigir según el ROL
             if (usuario.getRol() == RolUsuario.ADMINISTRADOR) {
                 new AdminScreen().setVisible(true);
             } else {
-                new UserCatalog().setVisible(true);
+                // --- ¡CAMBIO IMPORTANTE AQUÍ! ---
+                // Le pasamos el 'usuario' que inició sesión a la pantalla del catálogo
+                new UserScreen(usuario).setVisible(true); 
+                // --- FIN DEL CAMBIO ---
             }
             this.dispose(); // Cierra la ventana de login
 
         } else {
-            // Contraseña incorrecta
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
         }
 

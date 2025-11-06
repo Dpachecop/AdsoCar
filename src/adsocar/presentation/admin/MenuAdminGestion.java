@@ -5,6 +5,16 @@
 package adsocar.presentation.admin;
 import adsocar.presentation.admin.AdminScreen;
 import adsocar.presentation.admin.AdminScreenVehiculos;
+import adsocar.domain.entities.Usuario;
+import adsocar.domain.repositories.IUsuarioRepository;
+import adsocar.infrastructure.repositories.UsuarioRepositoryImpl;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.table.DefaultTableModel;
 /**
  *s
  * @author USER
@@ -12,35 +22,168 @@ import adsocar.presentation.admin.AdminScreenVehiculos;
 public class MenuAdminGestion extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuAdminGestion.class.getName());
-
+private IUsuarioRepository usuarioRepo;
+    private DefaultTableModel tableModel;
     /**
      * Creates new form MainMenuAdmin
      */
     public MenuAdminGestion() {
         initComponents();
         
-            btnSalir.setOpaque(true);
-        btnSalir.setContentAreaFilled(true);
-        btnSalir.setBorderPainted(false);
-        btnSalir.setFocusPainted(false);
+         // --- CÓDIGO MODIFICADO ---
+        
+        // 1. Instanciar repositorio
+        this.usuarioRepo = new UsuarioRepositoryImpl();
+
+        // 2. Configurar la tabla y el menú
+        configurarTabla();
+        
+        // 3. Cargar los datos
+        cargarUsuarios();
+
+        // --- Lógica de botones (como la tenías) ---
         
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
             }
         });
-    }
-private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {
-        new AdminScreen().setVisible(true); // Vuelve a la pantalla principal de Admin
-        this.dispose();
         
+        btnVehiculos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVehiculosActionPerformed(evt);
+            }
+        });
         
-     
+        // Estilos para los botones
+        btnSalir.setOpaque(true);
+        btnSalir.setContentAreaFilled(true);
+        btnSalir.setBorderPainted(false);
+        btnSalir.setFocusPainted(false);
+        
         btnVehiculos.setOpaque(true);
         btnVehiculos.setContentAreaFilled(true);
         btnVehiculos.setBorderPainted(false);
-        btnVehiculos.setFocusPainted(false);    
+        btnVehiculos.setFocusPainted(false); 
     }   
+    
+    private void cargarUsuarios() {
+        // Limpiamos la tabla
+        tableModel.setRowCount(0);
+        
+        try {
+            List<Usuario> usuarios = usuarioRepo.obtenerTodos();
+            for (Usuario u : usuarios) {
+                // Añadimos los datos en el orden de las columnas
+                tableModel.addRow(new Object[]{
+                    u.getId(),
+                    u.getNombreCompleto(),
+                    u.getNombreUsuario(),
+                    u.getEmail(),
+                    u.getRol().name() // .name() convierte el Enum a String
+                });
+            }
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al cargar usuarios", e);
+            JOptionPane.showMessageDialog(this, "Error al cargar la lista de usuarios.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    
+    private void configurarTabla() {
+        // Asignamos un modelo de tabla por defecto
+        tableModel = new DefaultTableModel() {
+            // Hacemos que las celdas no sean editables
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+        // Definimos las columnas que SÍ vamos a mostrar
+        tableModel.addColumn("ID"); // Lo ocultaremos, pero lo necesitamos
+        tableModel.addColumn("Nombre Completo");
+        tableModel.addColumn("Nombre Usuario");
+        tableModel.addColumn("Email");
+        tableModel.addColumn("Rol");
+
+        jTable1.setModel(tableModel);
+
+        // Ocultamos la columna ID (columna 0)
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(0).setWidth(0);
+
+        // Crear el menú contextual (popup)
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem menuItemEliminar = new JMenuItem("Eliminar Usuario");
+        popupMenu.add(menuItemEliminar);
+
+        // Asignar el listener de clic derecho a la tabla
+        jTable1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                // Verificar si es el clic derecho
+                if (e.isPopupTrigger()) {
+                    int fila = jTable1.rowAtPoint(e.getPoint());
+                    if (fila >= 0) {
+                        // Seleccionar la fila sobre la que se hizo clic
+                        jTable1.setRowSelectionInterval(fila, fila);
+                        // Mostrar el menú en la posición del clic
+                        popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
+            }
+        });
+
+        // Asignar la acción al botón "Eliminar" del menú
+        menuItemEliminar.addActionListener(e -> eliminarUsuarioSeleccionado());
+    }
+    
+    private void eliminarUsuarioSeleccionado() {
+        int filaSeleccionada = jTable1.getSelectedRow();
+        
+        // Si no hay fila seleccionada, no hacemos nada
+        if (filaSeleccionada == -1) {
+            return;
+        }
+
+        try {
+            // Obtenemos el ID de la columna oculta (columna 0)
+            int idUsuario = (int) tableModel.getValueAt(filaSeleccionada, 0);
+            String nombreUsuario = (String) tableModel.getValueAt(filaSeleccionada, 1);
+
+            // Pedimos confirmación
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "¿Estás seguro de que deseas eliminar a '" + nombreUsuario + "'?",
+                    "Confirmar Eliminación",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                // Eliminar de la base de datos
+                usuarioRepo.eliminar(idUsuario);
+                
+                // Mostrar éxito y recargar la tabla
+                JOptionPane.showMessageDialog(this, "Usuario eliminado con éxito.");
+                cargarUsuarios(); // Recargamos los datos
+            }
+            
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al eliminar usuario", e);
+            JOptionPane.showMessageDialog(this, "Error al eliminar el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {
+        new AdminScreen().setVisible(true);
+        this.dispose();
+    }
+    
+    private void btnVehiculosActionPerformed(java.awt.event.ActionEvent evt) {
+        new AdminScreenVehiculos().setVisible(true);
+        this.dispose();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -108,7 +251,7 @@ private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 710, 310));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 140, 710, 310));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

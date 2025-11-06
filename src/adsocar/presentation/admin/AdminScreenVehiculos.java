@@ -6,6 +6,23 @@ package adsocar.presentation.admin;
 import adsocar.presentation.admin.AddVehiculo;
 import adsocar.presentation.admin.AdminScreen;// Para el botón Salir
 import adsocar.presentation.admin.MenuAdminGestion;
+import adsocar.domain.entities.Vehiculo; // <-- AÑADIDO
+import adsocar.domain.repositories.IVehiculoRepository; // <-- AÑADIDO
+import adsocar.infrastructure.repositories.VehiculoRepositoryImpl; // <-- AÑADIDO
+import java.awt.BorderLayout; // <-- AÑADIDO
+import java.awt.Color; // <-- AÑADIDO
+import java.awt.Dimension; // <-- AÑADIDO
+import java.awt.Font; // <-- AÑADIDO
+import java.awt.Image; // <-- AÑADIDO
+import java.util.List; // <-- AÑADIDO
+import javax.swing.Box; // <-- AÑADIDO
+import javax.swing.BoxLayout; // <-- AÑADIDO
+import javax.swing.ImageIcon; // <-- AÑADIDO
+import javax.swing.JButton; // <-- AÑADIDO
+import javax.swing.JLabel; // <-- AÑADIDO
+import javax.swing.JOptionPane; // <-- AÑADIDO
+import javax.swing.JPanel; // <-- AÑADIDO
+import javax.swing.border.EmptyBorder;
 /**
  *
  * @author USER
@@ -13,12 +30,24 @@ import adsocar.presentation.admin.MenuAdminGestion;
 public class AdminScreenVehiculos extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdminScreenVehiculos.class.getName());
-
+private IVehiculoRepository vehiculoRepo;
     /**
      * Creates new form AdminScreenVehiculos
      */
     public AdminScreenVehiculos() {
         initComponents();
+        
+        // 1. Inicializar Repositorio
+        this.vehiculoRepo = new VehiculoRepositoryImpl();
+
+        // 2. Configurar el panel contenedor
+        // Usamos BoxLayout en eje Y para apilar las tarjetas verticalmente
+        panelContenidos.setLayout(new BoxLayout(panelContenidos, BoxLayout.Y_AXIS));
+        
+        // 3. Cargar los vehículos de la BD
+        cargarVehiculos();
+        
+        // --- ACCIONES DE BOTONES (Como antes) ---
         
         btnAñadirVehiculos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -26,7 +55,6 @@ public class AdminScreenVehiculos extends javax.swing.JFrame {
             }
         });
         
-        // Botón "SALIR"
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
@@ -54,16 +82,161 @@ public class AdminScreenVehiculos extends javax.swing.JFrame {
         btnUsuarios.setContentAreaFilled(true);
         btnUsuarios.setBorderPainted(false);
         btnUsuarios.setFocusPainted(false);
+
+        // --- FIN DE CÓDIGO MODIFICADO ---
+    }
+    
+    private JPanel crearTarjetaVehiculo(Vehiculo vehiculo) {
+        // --- 1. El Panel Principal de la Tarjeta ---
+        JPanel tarjeta = new JPanel(new BorderLayout(15, 15));
+        tarjeta.setBorder(new EmptyBorder(10, 10, 10, 10));
+        tarjeta.setBackground(Color.WHITE);
+        tarjeta.setMaximumSize(new Dimension(Integer.MAX_VALUE, 140)); // Altura fija
+        tarjeta.setMinimumSize(new Dimension(600, 140));
+        tarjeta.setPreferredSize(new Dimension(600, 140));
         
-        btnEditarInfo.setOpaque(true);
-        btnEditarInfo.setContentAreaFilled(true);
-        btnEditarInfo.setBorderPainted(false);
-        btnEditarInfo.setFocusPainted(false);
+        // --- 2. Panel de Imagen (Izquierda) ---
+        JLabel lblImagen = new JLabel();
+        lblImagen.setPreferredSize(new Dimension(160, 100));
         
-        btnEliminarV.setOpaque(true);
-        btnEliminarV.setContentAreaFilled(true);
-        btnEliminarV.setBorderPainted(false);
-        btnEliminarV.setFocusPainted(false);
+        // Cargamos la primera imagen del vehículo
+        String rutaImagen = "adsocar/assets/carrito_placeholder.png"; // Imagen por defecto
+        if (vehiculo.getRutasImagenes() != null && !vehiculo.getRutasImagenes().isEmpty()) {
+            rutaImagen = vehiculo.getRutasImagenes().get(0);
+        }
+
+        try {
+            ImageIcon icon = new ImageIcon(rutaImagen);
+            // Redimensionamos la imagen para que quepa
+            Image img = icon.getImage().getScaledInstance(160, 100, Image.SCALE_SMOOTH);
+            lblImagen.setIcon(new ImageIcon(img));
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.WARNING, "No se pudo cargar la imagen: " + rutaImagen, e);
+            // Si falla, se queda con la imagen placeholder (o vacío)
+            lblImagen.setText("Sin Imagen");
+        }
+        tarjeta.add(lblImagen, BorderLayout.WEST);
+
+        // --- 3. Panel de Información (Centro) ---
+        JPanel panelInfo = new JPanel();
+        panelInfo.setLayout(new BoxLayout(panelInfo, BoxLayout.Y_AXIS));
+        panelInfo.setBackground(Color.WHITE);
+        
+        JLabel lblModelo = new JLabel("Modelo: " + vehiculo.getMarca() + " " + vehiculo.getModelo());
+        lblModelo.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        
+        JLabel lblAnio = new JLabel("Año: " + vehiculo.getAnio());
+        lblAnio.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        
+        JLabel lblKm = new JLabel("Kilometraje: " + vehiculo.getKilometraje() + " km");
+        lblKm.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        
+        JLabel lblPrecio = new JLabel("Precio: $" + String.format("%,.0f", vehiculo.getPrecio()));
+        lblPrecio.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        panelInfo.add(lblModelo);
+        panelInfo.add(Box.createRigidArea(new Dimension(0, 5)));
+        panelInfo.add(lblAnio);
+        panelInfo.add(lblKm);
+        panelInfo.add(Box.createRigidArea(new Dimension(0, 5)));
+        panelInfo.add(lblPrecio);
+        
+        tarjeta.add(panelInfo, BorderLayout.CENTER);
+
+        // --- 4. Panel de Botones (Derecha) ---
+        JPanel panelBotones = new JPanel();
+        panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.Y_AXIS));
+        panelBotones.setBackground(Color.WHITE);
+
+        JButton btnEditar = new JButton("EDITAR INFORMACIÓN");
+        aplicarEstiloBoton(btnEditar, new Color(0, 102, 204));
+        
+        JButton btnEliminar = new JButton("ELIMINAR DEL CATÁLOGO");
+        aplicarEstiloBoton(btnEliminar, new Color(0, 102, 204));
+        
+        // Acción del botón Editar
+        btnEditar.addActionListener(e -> {
+            // Lógica futura para editar
+            JOptionPane.showMessageDialog(this, "Funcionalidad 'Editar' para Vehículo ID: " + vehiculo.getId() + " (aún no implementada).");
+        });
+        
+        // Acción del botón Eliminar
+        btnEliminar.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this, 
+                "¿Seguro que quieres eliminar el " + vehiculo.getMarca() + " " + vehiculo.getModelo() + "?", 
+                "Confirmar Eliminación", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.WARNING_MESSAGE);
+            
+            if (confirm == JOptionPane.YES_OPTION) {
+                eliminarVehiculo(vehiculo.getId());
+            }
+        });
+
+        panelBotones.add(btnEditar);
+        panelBotones.add(Box.createRigidArea(new Dimension(0, 10)));
+        panelBotones.add(btnEliminar);
+        
+        tarjeta.add(panelBotones, BorderLayout.EAST);
+
+        return tarjeta;
+    }
+    
+    private void aplicarEstiloBoton(JButton boton, Color colorFondo) {
+        boton.setBackground(colorFondo);
+        boton.setForeground(Color.WHITE);
+        boton.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        boton.setOpaque(true);
+        boton.setContentAreaFilled(true);
+        boton.setBorderPainted(false);
+        boton.setFocusPainted(false);
+    }
+    
+    /**
+     * Lógica para eliminar un vehículo.
+     */
+    private void eliminarVehiculo(int id) {
+        try {
+            vehiculoRepo.eliminar(id);
+            JOptionPane.showMessageDialog(this, "Vehículo eliminado con éxito.", "Eliminado", JOptionPane.INFORMATION_MESSAGE);
+            // Recargamos el catálogo
+            cargarVehiculos();
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al eliminar vehículo", e);
+            JOptionPane.showMessageDialog(this, "Error al eliminar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void cargarVehiculos() {
+        try {
+            List<Vehiculo> vehiculos = vehiculoRepo.obtenerTodos();
+            
+            // Limpiamos el panel por si acaso
+            panelContenidos.removeAll();
+            
+            if (vehiculos.isEmpty()) {
+                JLabel lblVacio = new JLabel("No hay vehículos registrados en el catálogo.");
+                lblVacio.setFont(new Font("Arial", Font.ITALIC, 16));
+                lblVacio.setBorder(new EmptyBorder(20, 20, 20, 20));
+                panelContenidos.add(lblVacio);
+            } else {
+                // Creamos una tarjeta por cada vehículo
+                for (Vehiculo vehiculo : vehiculos) {
+                    JPanel tarjeta = crearTarjetaVehiculo(vehiculo);
+                    panelContenidos.add(tarjeta);
+                    // Añadimos un espacio entre tarjetas
+                    panelContenidos.add(Box.createRigidArea(new Dimension(0, 10)));
+                }
+            }
+            
+            // Refrescamos la UI
+            panelContenidos.revalidate();
+            panelContenidos.repaint();
+            
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al cargar vehículos", e);
+            JOptionPane.showMessageDialog(this, "Error al cargar catálogo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void btnAñadirVehiculosActionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,14 +271,8 @@ private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {
         btnAñadirVehiculos = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        btnEliminarV = new javax.swing.JButton();
-        btnEditarInfo = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        scrollPaneCatalogo = new javax.swing.JScrollPane();
+        panelContenidos = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -147,47 +314,9 @@ private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("CÁTALOGO DE VEHICULOS"));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        scrollPaneCatalogo.setViewportView(panelContenidos);
 
-        btnEliminarV.setBackground(new java.awt.Color(0, 102, 204));
-        btnEliminarV.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminarV.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminarV.setText("ELIMINAR DEL CATALOGO");
-        btnEliminarV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarVActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnEliminarV, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 80, -1, 36));
-
-        btnEditarInfo.setBackground(new java.awt.Color(0, 102, 204));
-        btnEditarInfo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEditarInfo.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditarInfo.setText("EDITAR INFORMACIÓN");
-        jPanel4.add(btnEditarInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(448, 32, 181, 36));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito2 (1).jpg"))); // NOI18N
-        jLabel2.setText("jLabel2");
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 160, 100));
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("Modelo: Madza 3");
-        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, -1, -1));
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setText("Año: 2019");
-        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, -1, -1));
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setText("Kilometraje: 200.000");
-        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, -1, -1));
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setText("Precio: $70.500.000");
-        jPanel4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, -1, -1));
-
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 650, 130));
+        jPanel2.add(scrollPaneCatalogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 670, 300));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 690, 330));
 
@@ -195,10 +324,6 @@ private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnEliminarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarVActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarVActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,21 +352,15 @@ private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAñadirVehiculos;
-    private javax.swing.JButton btnEditarInfo;
-    private javax.swing.JButton btnEliminarV;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnUsuarios;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel panelContenidos;
+    private javax.swing.JScrollPane scrollPaneCatalogo;
     // End of variables declaration//GEN-END:variables
 }

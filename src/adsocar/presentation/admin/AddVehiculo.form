@@ -275,6 +275,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JComboBox" name="comboBoxPropietario">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboBoxPropietarioActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;PropietarioItem&gt;"/>
           </AuxValues>

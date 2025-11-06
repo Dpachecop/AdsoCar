@@ -7,6 +7,7 @@ import adsocar.presentation.admin.MenuAdminGestion;
 import adsocar.presentation.admin.AdminScreenVehiculos;
 import adsocar.presentation.admin.MenuAdminGestion;
 import adsocar.presentation.admin.AdminScreenVehiculos;
+import adsocar.presentation.admin.AgregarPropietarioCarrito;
 /**
  *
  * @author danielpacheco
@@ -25,10 +26,16 @@ public class AdminScreen extends javax.swing.JFrame {
         // --- CÓDIGO AÑADIDO (ESTILOS) ---
         
         // Estilo Botón "Ver todos los usuarios"
-        btnVerTodosLosUsuarios.setOpaque(true);
+      btnVerTodosLosUsuarios.setOpaque(true);
         btnVerTodosLosUsuarios.setContentAreaFilled(true);
         btnVerTodosLosUsuarios.setBorderPainted(false);
         btnVerTodosLosUsuarios.setFocusPainted(false);
+        
+        // Estilo Botón "Agregar Propietario" <-- AÑADIDO
+        btnAgregarPropietario.setOpaque(true);
+        btnAgregarPropietario.setContentAreaFilled(true);
+        btnAgregarPropietario.setBorderPainted(false);
+        btnAgregarPropietario.setFocusPainted(false);
         
         // Estilo Botón "Ver catálogo"
         btnVerCatalogo.setOpaque(true);
@@ -41,6 +48,13 @@ public class AdminScreen extends javax.swing.JFrame {
         btnAñadirVehiculo.setContentAreaFilled(true);
         btnAñadirVehiculo.setBorderPainted(false);
         btnAñadirVehiculo.setFocusPainted(false);
+        
+        // Botón "Agregar Propietario" <-- AÑADIDO
+        btnAgregarPropietario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPropietarioActionPerformed(evt);
+            }
+        });
         
         
         btnVerTodosLosUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -64,7 +78,10 @@ public class AdminScreen extends javax.swing.JFrame {
         new MenuAdminGestion().setVisible(true);
         this.dispose();
     }
-
+private void btnAgregarPropietarioActionPerformed(java.awt.event.ActionEvent evt) {
+        new AgregarPropietarioCarrito().setVisible(true);
+        this.dispose();
+    }
     private void btnAñadirVehiculoActionPerformed(java.awt.event.ActionEvent evt) {
         // Según tu solicitud, este botón abre AdminScreenVehiculos
         new AdminScreenVehiculos().setVisible(true);

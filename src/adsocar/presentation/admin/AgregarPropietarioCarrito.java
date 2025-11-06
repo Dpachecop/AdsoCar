@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.admin;
-
+import adsocar.domain.entities.Propietario;
+import adsocar.domain.repositories.IPropietarioRepository;
+import adsocar.infrastructure.repositories.PropietarioRepositoryImpl;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Isacc
@@ -11,12 +14,71 @@ package adsocar.presentation.admin;
 public class AgregarPropietarioCarrito extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AgregarPropietarioCarrito.class.getName());
-
+private IPropietarioRepository propietarioRepo;
     /**
      * Creates new form AgregarPropietarioCarrito
      */
     public AgregarPropietarioCarrito() {
         initComponents();
+        this.propietarioRepo = new PropietarioRepositoryImpl();
+        
+        // 2. Aplicar estilos al botón
+        btnRegistrarPropietario.setOpaque(true);
+        btnRegistrarPropietario.setContentAreaFilled(true);
+        btnRegistrarPropietario.setBorderPainted(false);
+        btnRegistrarPropietario.setFocusPainted(false);
+        
+        // 3. Conectar el botón con su acción
+        btnRegistrarPropietario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarPropietarioActionPerformed(evt);
+            }
+        });
+        
+    }
+    
+    private void btnRegistrarPropietarioActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            // 1. Recoger los datos de los campos de texto
+            // (Basado en los nombres de variables de tu .form)
+            String nombre = jTextField4.getText();
+            String identificacion = jTextField1.getText();
+            String telefono = jTextField3.getText();
+            String direccion = jTextField5.getText();
+            // Nota: jTextField2 (email) se ignora, ya que no existe en la entidad Propietario.
+
+            // 2. Validar campos obligatorios
+            if (nombre.isEmpty() || identificacion.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El nombre y el número de documento son obligatorios.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 3. Crear la entidad Propietario
+            Propietario nuevoPropietario = new Propietario();
+            nuevoPropietario.setNombreCompleto(nombre);
+            nuevoPropietario.setIdentificacion(identificacion);
+            nuevoPropietario.setNumeroTelefonico(telefono);
+            nuevoPropietario.setDireccion(direccion);
+
+            // 4. Guardar en la base de datos
+            propietarioRepo.guardar(nuevoPropietario);
+
+            // 5. Dar feedback y regresar a la pantalla de Admin
+            JOptionPane.showMessageDialog(this, 
+                "Propietario registrado con éxito.", 
+                "Registro Completo", 
+                JOptionPane.INFORMATION_MESSAGE);
+            
+            new AdminScreen().setVisible(true);
+            this.dispose();
+
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al registrar propietario", e);
+            JOptionPane.showMessageDialog(this, 
+                "Error al guardar: " + e.getMessage(), 
+                "Error de Base de Datos", 
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -101,7 +163,7 @@ public class AgregarPropietarioCarrito extends javax.swing.JFrame {
 
         jLabel6.setText("Nombre propietario");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, -1, -1));
-        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 220, 190, 40));
+        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 220, 190, 40));
 
         jLabel7.setText("Dirección ");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 200, -1, -1));

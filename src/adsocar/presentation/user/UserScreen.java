@@ -3,6 +3,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.user;
+import adsocar.domain.entities.Usuario;
+import adsocar.domain.entities.Vehiculo;
+import adsocar.domain.repositories.IVehiculoRepository;
+import adsocar.infrastructure.repositories.VehiculoRepositoryImpl;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -11,14 +33,117 @@ package adsocar.presentation.user;
 public class UserScreen extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UserScreen.class.getName());
-
+private Usuario usuario; // El usuario que inició sesión
+    private IVehiculoRepository vehiculoRepo;
     /**
      * Creates new form UserScreen
      */
+    
+    
     public UserScreen() {
         initComponents();
+        // Este constructor no debe cargar datos, es solo para el diseñador.
+    }
+    
+    public UserScreen(Usuario usuario) {
+        initComponents();
+        
+        
+     
+        
+        this.usuario = usuario;
+        this.vehiculoRepo = new VehiculoRepositoryImpl();
+        
+        // Configurar el panel para la cuadrícula de 3 columnas
+        // (0 filas = dinámicas, 3 columnas, 10px de espacio h/v)
+        panelGridContenidos.setLayout(new GridLayout(0, 3, 10, 10));
+        panelGridContenidos.setBackground(Color.WHITE);
+        
+        // Poner el título de bienvenida
+        jLabel3.setText("¡Bienvenido, " + usuario.getNombreUsuario() + "!");
+        
+        // Cargar los vehículos
+        cargarVehiculos();
+    }
+private void cargarVehiculos() {
+        try {
+            List<Vehiculo> vehiculos = vehiculoRepo.obtenerTodos();
+            panelGridContenidos.removeAll();
+            
+            if (vehiculos.isEmpty()) {
+                panelGridContenidos.add(new JLabel("No hay vehículos en el catálogo por ahora."));
+            } else {
+                for (Vehiculo v : vehiculos) {
+                    JPanel tarjeta = crearTarjetaVehiculo(v);
+                    panelGridContenidos.add(tarjeta);
+                }
+            }
+            
+            panelGridContenidos.revalidate();
+            panelGridContenidos.repaint();
+            
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al cargar vehículos", e);
+            JOptionPane.showMessageDialog(this, "Error al cargar catálogo.");
+        }
     }
 
+private JPanel crearTarjetaVehiculo(Vehiculo vehiculo) {
+        // 1. Panel principal de la tarjeta
+        JPanel tarjeta = new JPanel();
+        tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS)); // Apilado vertical
+        tarjeta.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.LIGHT_GRAY),
+            new EmptyBorder(10, 10, 10, 10)
+        ));
+        tarjeta.setBackground(new Color(245, 245, 245));
+        tarjeta.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Poner manito
+        
+        // 2. Imagen
+        JLabel lblImagen = new JLabel();
+        lblImagen.setPreferredSize(new Dimension(220, 120));
+        lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        String rutaImagen = "adsocar/assets/carrito_placeholder.png";
+        if (vehiculo.getRutasImagenes() != null && !vehiculo.getRutasImagenes().isEmpty()) {
+            rutaImagen = vehiculo.getRutasImagenes().get(0);
+        }
+        
+        try {
+            ImageIcon icon = new ImageIcon(rutaImagen);
+            Image img = icon.getImage().getScaledInstance(220, 120, Image.SCALE_SMOOTH);
+            lblImagen.setIcon(new ImageIcon(img));
+        } catch (Exception e) {
+            lblImagen.setText("Sin Imagen");
+        }
+        
+        // 3. Título (Marca y Modelo)
+        JLabel lblTitulo = new JLabel(vehiculo.getMarca() + " " + vehiculo.getModelo());
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 16));
+        lblTitulo.setBorder(new EmptyBorder(10, 0, 5, 0));
+        
+        // 4. Precio
+        JLabel lblPrecio = new JLabel("$ " + String.format("%,.0f", vehiculo.getPrecio()) + " COP");
+        lblPrecio.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        // 5. Añadir componentes a la tarjeta
+        tarjeta.add(lblImagen);
+        tarjeta.add(lblTitulo);
+        tarjeta.add(lblPrecio);
+        
+        // 6. AÑADIR ACCIÓN DE CLIC
+        tarjeta.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Abrir la pantalla de detalles (UserCatalog)
+                new UserCatalog(usuario, vehiculo).setVisible(true);
+                // Cerrar esta pantalla
+                dispose(); 
+            }
+        });
+        
+        return tarjeta;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,53 +159,9 @@ public class UserScreen extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
-        jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
-        jPanel15 = new javax.swing.JPanel();
-        jLabel28 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
-        jPanel16 = new javax.swing.JPanel();
-        jLabel31 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
-        jPanel17 = new javax.swing.JPanel();
-        jLabel34 = new javax.swing.JLabel();
-        jLabel35 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
-        jLabel38 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel40 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel39 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        scrollPaneCatalogo = new javax.swing.JScrollPane();
+        panelGridContenidos = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,190 +212,24 @@ public class UserScreen extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 70));
 
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito1PNG.png"))); // NOI18N
-        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 223, -1));
-
-        jLabel9.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel9.setText("Ford Ciesta");
-        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel10.setText("$ 80.000.000 COP");
-        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, -1, -1));
-
-        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito1PNG.png"))); // NOI18N
-        jPanel10.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 223, -1));
-
-        jLabel24.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel24.setText("Ford Ciesta");
-        jPanel10.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jLabel25.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel25.setText("$ 80.000.000 COP");
-        jPanel10.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, -1, -1));
-
-        jPanel3.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 250, 130));
-
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 250, 130));
-
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito3_png.png"))); // NOI18N
-        jLabel13.setText("jLabel8");
-        jPanel6.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 19, 164, -1));
-
-        jLabel14.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel14.setText("$ 100.000.000 COP");
-        jPanel6.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
-
-        jLabel15.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel15.setText("Chevrolet Coy");
-        jPanel6.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel5.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 250, 130));
-
-        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito3_png.png"))); // NOI18N
-        jLabel16.setText("jLabel8");
-        jPanel7.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 19, 164, -1));
-
-        jLabel17.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel17.setText("$ 100.000.000 COP");
-        jPanel7.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
-
-        jLabel18.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel18.setText("Chevrolet Coy");
-        jPanel7.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito3_png.png"))); // NOI18N
-        jLabel19.setText("jLabel8");
-        jPanel8.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 19, 164, -1));
-
-        jLabel20.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel20.setText("$ 100.000.000 COP");
-        jPanel8.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
-
-        jLabel21.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel21.setText("Chevrolet Coy");
-        jPanel8.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel7.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 250, 130));
-
-        jPanel5.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 250, 130));
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito3_png.png"))); // NOI18N
-        jLabel8.setText("jLabel8");
-        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 164, -1));
-
-        jLabel22.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel22.setText("Chevrolet Coy");
-        jPanel5.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel26.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel26.setText("$ 100.000.000 COP");
-        jPanel14.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
-
-        jLabel27.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel27.setText("Chevrolet Coy");
-        jPanel14.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito3_png.png"))); // NOI18N
-        jLabel28.setText("jLabel8");
-        jPanel15.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 19, 164, -1));
-
-        jLabel29.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel29.setText("$ 100.000.000 COP");
-        jPanel15.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
-
-        jLabel30.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel30.setText("Chevrolet Coy");
-        jPanel15.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel14.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 250, 130));
-
-        jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito3_png.png"))); // NOI18N
-        jLabel31.setText("jLabel8");
-        jPanel16.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 19, 164, -1));
-
-        jLabel32.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel32.setText("$ 100.000.000 COP");
-        jPanel16.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
-
-        jLabel33.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel33.setText("Chevrolet Coy");
-        jPanel16.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito3_png.png"))); // NOI18N
-        jLabel34.setText("jLabel8");
-        jPanel17.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 19, 164, -1));
-
-        jLabel35.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel35.setText("$ 100.000.000 COP");
-        jPanel17.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
-
-        jLabel36.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel36.setText("Chevrolet Coy");
-        jPanel17.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel16.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 250, 130));
-
-        jPanel14.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 250, 130));
-
-        jLabel37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito3_png.png"))); // NOI18N
-        jLabel37.setText("jLabel8");
-        jPanel14.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 164, -1));
-
-        jLabel38.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel38.setText("Chevrolet Coy");
-        jPanel14.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jPanel5.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 250, 130));
-
-        jLabel12.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel12.setText("Chevrolet Coy");
-        jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jLabel40.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel40.setText("$ 100.000.000 COP");
-        jPanel5.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
-
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 250, 130));
-
         jLabel6.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel6.setText("Catalogo");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
-        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        javax.swing.GroupLayout panelGridContenidosLayout = new javax.swing.GroupLayout(panelGridContenidos);
+        panelGridContenidos.setLayout(panelGridContenidosLayout);
+        panelGridContenidosLayout.setHorizontalGroup(
+            panelGridContenidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 878, Short.MAX_VALUE)
+        );
+        panelGridContenidosLayout.setVerticalGroup(
+            panelGridContenidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 338, Short.MAX_VALUE)
+        );
 
-        jLabel39.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/carrito2png-.png"))); // NOI18N
-        jPanel9.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+        scrollPaneCatalogo.setViewportView(panelGridContenidos);
 
-        jLabel11.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel11.setText("Pazda 3");
-        jPanel9.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel7.setText("$ 150.000.000 COP");
-        jPanel9.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, -1, -1));
-
-        jPanel1.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 150, 240, 130));
+        jPanel1.add(scrollPaneCatalogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 880, 340));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -360,57 +275,13 @@ public class UserScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
-    private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel panelGridContenidos;
+    private javax.swing.JScrollPane scrollPaneCatalogo;
     // End of variables declaration//GEN-END:variables
 }

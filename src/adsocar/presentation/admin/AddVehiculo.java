@@ -333,6 +333,12 @@ public class AddVehiculo extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setText("Propietario del Vehiculo");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 210, -1, -1));
+
+        comboBoxPropietario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxPropietarioActionPerformed(evt);
+            }
+        });
         jPanel1.add(comboBoxPropietario, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 240, 190, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -357,6 +363,10 @@ public class AddVehiculo extends javax.swing.JFrame {
     private void txtModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtModeloActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtModeloActionPerformed
+
+    private void comboBoxPropietarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxPropietarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxPropietarioActionPerformed
 
     /**
      * @param args the command line arguments
