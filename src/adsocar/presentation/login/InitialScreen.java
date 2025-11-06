@@ -111,7 +111,6 @@ public class InitialScreen extends javax.swing.JFrame {
         background.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 450, 40));
 
         jPanel1.setBackground(new java.awt.Color(153, 195, 248));
-        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnEntrarAdmin.setBackground(new java.awt.Color(51, 153, 255));
         btnEntrarAdmin.setForeground(new java.awt.Color(255, 255, 255));
@@ -157,7 +156,6 @@ public class InitialScreen extends javax.swing.JFrame {
         background.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, 280, 180));
 
         jPanel4.setBackground(new java.awt.Color(153, 195, 248));
-        jPanel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/avatar.png"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -213,13 +211,17 @@ public class InitialScreen extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 906, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, 906, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
