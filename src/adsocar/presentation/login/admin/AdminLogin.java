@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.login.admin;
-
+import adsocar.presentation.admin.AdminScreen; // <-- AÑADIR ESTE IMPORT
+import javax.swing.JOptionPane;
 /**
  *
  * @author danielpacheco
@@ -11,16 +12,52 @@ package adsocar.presentation.login.admin;
 public class AdminLogin extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdminLogin.class.getName());
-
+    private static final String ADMIN_USER = "AdminAdso";
+    private static final String ADMIN_PASS = "3067863";
     /**
      * Creates new form AdminLogin
      */
     public AdminLogin() {
         initComponents();
+        
+        btnIngresarAdmin.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnIngresarAdminActionPerformed(evt);
+        }
+    });
+        
         btnIngresarAdmin.setOpaque(true);
         btnIngresarAdmin.setContentAreaFilled(true);
         btnIngresarAdmin.setBorderPainted(false); // Sin borde visual
         btnIngresarAdmin.setFocusPainted(false);
+    }
+    
+    // --- AÑADE ESTE MÉTODO COMPLETO A TU CLASE ---
+
+    /**
+     * Maneja el clic en el botón "Ingresar"
+     */
+    private void btnIngresarAdminActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        
+        // 1. Obtenemos los datos de los campos de texto
+        String usuarioIngresado = txtCorreoAdmin.getText();
+        String passIngresada = new String(txtContraAdmin.getPassword());
+
+        // 2. Comparamos con las constantes
+        if (usuarioIngresado.equals(ADMIN_USER) && passIngresada.equals(ADMIN_PASS)) {
+            // ¡Éxito!
+            JOptionPane.showMessageDialog(this, "Bienvenido, Administrador.", "Acceso Concedido", JOptionPane.INFORMATION_MESSAGE);
+            
+            // Abrimos la pantalla de Admin
+            new AdminScreen().setVisible(true);
+            
+            // Cerramos esta ventana de login
+            this.dispose(); 
+
+        } else {
+            // Error
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.", "Acceso Denegado", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -105,7 +142,7 @@ public class AdminLogin extends javax.swing.JFrame {
         jLabel2.setText("Por favor digite sus datos para ingresar como administrador");
         jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 103, 327, -1));
 
-        jLabel3.setText("Correo Eletronico ");
+        jLabel3.setText("Usuario");
         jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 135, -1, -1));
         jPanel3.add(txtContraAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 231, 285, 40));
 
