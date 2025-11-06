@@ -54,13 +54,13 @@ public class MenuAdminGestion extends javax.swing.JFrame {
         btnSalir.setBackground(new java.awt.Color(255, 51, 51));
         btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setText("SALIR");
-        jPanel3.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 425, 133, 34));
+        jPanel3.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, 133, 34));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/adsocar_letters.png"))); // NOI18N
         jLabel4.setText("jLabel4");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 73));
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 480));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 550));
 
         jLabel2.setBackground(new java.awt.Color(153, 153, 153));
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, -1, -1));
@@ -92,7 +92,7 @@ public class MenuAdminGestion extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 939, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
