@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.login;
-
+import adsocar.presentation.login.admin.AdminLogin; // Importar
+import adsocar.presentation.login.user.UserLogin;
 /**
  *
  * @author danielpacheco
@@ -17,8 +18,30 @@ public class InitialScreen extends javax.swing.JFrame {
      */
     public InitialScreen() {
         initComponents();
+        
+        
+       btnEntrarAdmin.setOpaque(true);
+        btnEntrarAdmin.setContentAreaFilled(true);
+        btnEntrarAdmin.setBorderPainted(false); // Sin borde visual
+        btnEntrarAdmin.setFocusPainted(false); // ¡Elimina el halo de foco!
+        // Botón Entrar User
+        btnEntrarUser.setOpaque(true);
+        btnEntrarUser.setContentAreaFilled(true);
+        btnEntrarUser.setBorderPainted(false); // Sin borde visual
+        btnEntrarUser.setFocusPainted(false);
+        
+        btnEntrarAdmin.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            btnEntrarAdminActionPerformed(evt);
+        }
+    });
     }
 
+    private void btnEntrarAdminActionPerformed(java.awt.event.ActionEvent evt) {                                               
+    System.out.println("Entrando como Admin...");
+    new AdminLogin().setVisible(true); // Abre la ventana de login de admin
+    this.dispose(); // Cierra esta ventana (InitialScreen)
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,18 +129,18 @@ public class InitialScreen extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 78, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(73, 73, 73))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(btnEntrarAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(106, 106, 106)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(btnEntrarAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,6 +227,10 @@ public class InitialScreen extends javax.swing.JFrame {
 
     private void btnEntrarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarUserActionPerformed
         // TODO add your handling code here:
+        
+        System.out.println("Entrando como User...");
+    new UserLogin().setVisible(true); // Abre la ventana de login de usuario
+    this.dispose();
     }//GEN-LAST:event_btnEntrarUserActionPerformed
 
     /**
