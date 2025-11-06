@@ -32,6 +32,14 @@ public class UserLogin extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         logoadsocar1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        btnIniciarSesion = new javax.swing.JButton();
+        linkRegistrarUsuario = new javax.swing.JLabel();
+        txtContraseña = new javax.swing.JPasswordField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,24 +73,60 @@ public class UserLogin extends javax.swing.JFrame {
                 .addComponent(logoadsocar1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        background.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 480));
+        background.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 490));
+        background.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 180, 260, 40));
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel2.setText("Contraseña:");
+        background.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 240, 120, 40));
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
+        jLabel3.setText("Ingresa tus datos");
+        background.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 80, 320, 40));
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel4.setText("Email:");
+        background.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, 120, 40));
+
+        btnIniciarSesion.setBackground(new java.awt.Color(51, 153, 255));
+        btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        btnIniciarSesion.setText("Iniciar sesion");
+        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarSesionActionPerformed(evt);
+            }
+        });
+        background.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 300, 210, 40));
+
+        linkRegistrarUsuario.setForeground(new java.awt.Color(153, 153, 153));
+        linkRegistrarUsuario.setText("¿No tiene una cuenta? Registrese");
+        background.add(linkRegistrarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 360, -1, -1));
+        background.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 240, 260, 40));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/avatar.png"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        background.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 60, 70, 80));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 906, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 906, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -111,8 +155,16 @@ public class UserLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
+    private javax.swing.JButton btnIniciarSesion;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel linkRegistrarUsuario;
     private javax.swing.JLabel logoadsocar1;
+    private javax.swing.JPasswordField txtContraseña;
+    private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
 }
