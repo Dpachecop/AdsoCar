@@ -34,11 +34,12 @@ public class AdminScreen extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        btnVerTodosLosUsuarios = new javax.swing.JButton();
+        btnAgregarPropietario = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        btnVerTodosLosUsuarios1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         btnAñadirVehiculo = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -94,11 +95,11 @@ public class AdminScreen extends javax.swing.JFrame {
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnVerTodosLosUsuarios.setBackground(new java.awt.Color(51, 153, 255));
-        btnVerTodosLosUsuarios.setForeground(new java.awt.Color(255, 255, 255));
-        btnVerTodosLosUsuarios.setText("Ver todos los usuarios");
-        btnVerTodosLosUsuarios.setName("btnVerUsuarios"); // NOI18N
-        jPanel3.add(btnVerTodosLosUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 241, 348, 33));
+        btnAgregarPropietario.setBackground(new java.awt.Color(51, 153, 255));
+        btnAgregarPropietario.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarPropietario.setText("Agregar Propietario");
+        btnAgregarPropietario.setName("btnVerUsuarios"); // NOI18N
+        jPanel3.add(btnAgregarPropietario, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 150, 33));
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel4.setText("Gestión de usuarios");
@@ -112,6 +113,12 @@ public class AdminScreen extends javax.swing.JFrame {
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/user_84308.png"))); // NOI18N
         jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, 30));
+
+        btnVerTodosLosUsuarios1.setBackground(new java.awt.Color(51, 153, 255));
+        btnVerTodosLosUsuarios1.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerTodosLosUsuarios1.setText("Ver todos los usuarios");
+        btnVerTodosLosUsuarios1.setName("btnVerUsuarios"); // NOI18N
+        jPanel3.add(btnVerTodosLosUsuarios1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 150, 33));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 390, 280));
 
@@ -223,9 +230,10 @@ public class AdminScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarPropietario;
     private javax.swing.JButton btnAñadirVehiculo;
     private javax.swing.JButton btnVerCatalogo;
-    private javax.swing.JButton btnVerTodosLosUsuarios;
+    private javax.swing.JButton btnVerTodosLosUsuarios1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
