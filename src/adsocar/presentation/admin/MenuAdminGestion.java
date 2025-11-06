@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.admin;
-
+import adsocar.presentation.admin.AdminScreen;
+import adsocar.presentation.admin.AdminScreenVehiculos;
 /**
- *
+ *s
  * @author USER
  */
 public class MenuAdminGestion extends javax.swing.JFrame {
@@ -17,8 +18,29 @@ public class MenuAdminGestion extends javax.swing.JFrame {
      */
     public MenuAdminGestion() {
         initComponents();
+        
+            btnSalir.setOpaque(true);
+        btnSalir.setContentAreaFilled(true);
+        btnSalir.setBorderPainted(false);
+        btnSalir.setFocusPainted(false);
+        
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
     }
-
+private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {
+        new AdminScreen().setVisible(true); // Vuelve a la pantalla principal de Admin
+        this.dispose();
+        
+        
+     
+        btnVehiculos.setOpaque(true);
+        btnVehiculos.setContentAreaFilled(true);
+        btnVehiculos.setBorderPainted(false);
+        btnVehiculos.setFocusPainted(false);    
+    }   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

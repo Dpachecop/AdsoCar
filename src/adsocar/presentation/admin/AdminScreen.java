@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.admin;
-
+import adsocar.presentation.admin.MenuAdminGestion;
+import adsocar.presentation.admin.AdminScreenVehiculos;
+import adsocar.presentation.admin.MenuAdminGestion;
+import adsocar.presentation.admin.AdminScreenVehiculos;
 /**
  *
  * @author danielpacheco
@@ -17,8 +20,56 @@ public class AdminScreen extends javax.swing.JFrame {
      */
     public AdminScreen() {
         initComponents();
+     
+        
+        // --- CÓDIGO AÑADIDO (ESTILOS) ---
+        
+        // Estilo Botón "Ver todos los usuarios"
+        btnVerTodosLosUsuarios.setOpaque(true);
+        btnVerTodosLosUsuarios.setContentAreaFilled(true);
+        btnVerTodosLosUsuarios.setBorderPainted(false);
+        btnVerTodosLosUsuarios.setFocusPainted(false);
+        
+        // Estilo Botón "Ver catálogo"
+        btnVerCatalogo.setOpaque(true);
+        btnVerCatalogo.setContentAreaFilled(true);
+        btnVerCatalogo.setBorderPainted(false);
+        btnVerCatalogo.setFocusPainted(false);
+        
+        // Estilo Botón "Añadir vehiculo"
+        btnAñadirVehiculo.setOpaque(true);
+        btnAñadirVehiculo.setContentAreaFilled(true);
+        btnAñadirVehiculo.setBorderPainted(false);
+        btnAñadirVehiculo.setFocusPainted(false);
+        
+        
+        btnVerTodosLosUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerTodosLosUsuariosActionPerformed(evt);
+            }
+        });
+        
+        // Botón "Añadir vehiculo"
+        // Según tu solicitud, este botón abre AdminScreenVehiculos.
+        btnAñadirVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirVehiculoActionPerformed(evt);
+            }
+        });
+    }
+    
+    
+
+    private void btnVerTodosLosUsuariosActionPerformed(java.awt.event.ActionEvent evt) {
+        new MenuAdminGestion().setVisible(true);
+        this.dispose();
     }
 
+    private void btnAñadirVehiculoActionPerformed(java.awt.event.ActionEvent evt) {
+        // Según tu solicitud, este botón abre AdminScreenVehiculos
+        new AdminScreenVehiculos().setVisible(true);
+        this.dispose();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
