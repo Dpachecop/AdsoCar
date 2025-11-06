@@ -3,6 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.login.user;
+import adsocar.domain.entities.Usuario;
+import adsocar.domain.enums.RolUsuario;
+import adsocar.domain.repositories.IUsuarioRepository;
+import adsocar.infrastructure.repositories.UsuarioRepositoryImpl;
+import adsocar.presentation.admin.AdminScreen; // Pantalla de Admin
+import adsocar.presentation.user.UserScreen;   // Pantalla de Usuario
+import java.util.Optional; // Necesario para el resultado
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,12 +19,32 @@ package adsocar.presentation.login.user;
 public class UserLogin extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UserLogin.class.getName());
-
+private IUsuarioRepository usuarioRepo;
     /**
      * Creates new form UserLogin
      */
     public UserLogin() {
         initComponents();
+        
+        btnIniciarSesion.setOpaque(true);
+        btnIniciarSesion.setContentAreaFilled(true);
+        btnIniciarSesion.setBorderPainted(false); // Sin borde visual
+        btnIniciarSesion.setFocusPainted(false);
+        
+        this.usuarioRepo = new UsuarioRepositoryImpl();
+
+        // (Extra: Conectar el link de "Registrarse")
+        linkRegistrarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                linkRegistrarUsuarioMouseClicked(evt);
+            }
+        });
+    }
+    
+    private void linkRegistrarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {
+         new UserRegisterScreen().setVisible(true);
+         this.dispose();
     }
 
     /**
@@ -32,7 +60,7 @@ public class UserLogin extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         logoadsocar1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
+        txtUsuario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -77,7 +105,7 @@ public class UserLogin extends javax.swing.JFrame {
         );
 
         background.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 490));
-        background.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 180, 260, 40));
+        background.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 180, 260, 40));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Contraseña:");
@@ -88,7 +116,7 @@ public class UserLogin extends javax.swing.JFrame {
         background.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 80, 320, 40));
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel4.setText("Email:");
+        jLabel4.setText("Usuario:");
         background.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, 120, 40));
 
         btnIniciarSesion.setBackground(new java.awt.Color(51, 153, 255));
@@ -126,6 +154,52 @@ public class UserLogin extends javax.swing.JFrame {
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         // TODO add your handling code here:
+        // 1. Recoger los datos
+    // NOTA: Tu formulario pide "Email", pero tu repositorio busca por "nombreUsuario".
+    // Asumiré que el campo "Email" en realidad se usa para el "nombreUsuario".
+    String nombreUsuario = txtUsuario.getText(); //
+    String contrasena = new String(txtContraseña.getPassword()); //
+
+    if (nombreUsuario.isEmpty() || contrasena.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Debe ingresar usuario y contraseña", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        // 2. Buscar al usuario por su nombre de usuario
+        Optional<Usuario> usuarioOpt = usuarioRepo.obtenerPorNombreUsuario(nombreUsuario);
+
+        // 3. Verificar si el usuario existe
+        if (!usuarioOpt.isPresent()) {
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Usuario usuario = usuarioOpt.get();
+
+        // 4. Verificar la contraseña
+        // (Reitero la ADVERTENCIA DE SEGURIDAD: esto compara texto plano)
+        if (usuario.getContrasenaHash().equals(contrasena)) {
+            // ¡Login exitoso!
+            JOptionPane.showMessageDialog(this, "¡Bienvenido, " + usuario.getNombreCompleto() + "!", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
+
+            // 5. Redirigir según el ROL
+            if (usuario.getRol() == RolUsuario.ADMINISTRADOR) {
+                new AdminScreen().setVisible(true);
+            } else {
+                new UserScreen().setVisible(true);
+            }
+            this.dispose(); // Cierra la ventana de login
+
+        } else {
+            // Contraseña incorrecta
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    } catch (Exception e) {
+        logger.log(java.util.logging.Level.SEVERE, "Error al iniciar sesión", e);
+        JOptionPane.showMessageDialog(this, "Error en la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     /**
@@ -165,6 +239,6 @@ public class UserLogin extends javax.swing.JFrame {
     private javax.swing.JLabel linkRegistrarUsuario;
     private javax.swing.JLabel logoadsocar1;
     private javax.swing.JPasswordField txtContraseña;
-    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

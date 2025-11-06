@@ -3,7 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.login.user;
-
+import adsocar.domain.entities.Usuario;
+import adsocar.domain.enums.RolUsuario;
+import adsocar.domain.repositories.IUsuarioRepository;
+import adsocar.infrastructure.repositories.UsuarioRepositoryImpl;
+import javax.swing.JOptionPane;
 /**
  *
  * @author danielpacheco
@@ -12,11 +16,21 @@ public class UserRegisterScreen extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UserRegisterScreen.class.getName());
 
+
+
+    // 1. Declara la INTERFAZ del repositorio
+    private IUsuarioRepository usuarioRepo;
     /**
      * Creates new form UserRegisterScreen
      */
     public UserRegisterScreen() {
         initComponents();
+        
+        btnRegistrarCuenta.setOpaque(true);
+        btnRegistrarCuenta.setContentAreaFilled(true);
+        btnRegistrarCuenta.setBorderPainted(false); // Sin borde visual
+        btnRegistrarCuenta.setFocusPainted(false);
+        this.usuarioRepo = new UsuarioRepositoryImpl();
     }
 
     /**
@@ -154,6 +168,52 @@ public class UserRegisterScreen extends javax.swing.JFrame {
 
     private void btnRegistrarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarCuentaActionPerformed
         // TODO add your handling code here:
+        try {
+        // 1. Recoger los datos de los campos de texto
+        String nombreCompleto = txtNombreCompleto.getText();
+        String email = txtEmail1.getText(); //
+        String nombreUsuario = txtNombreUsuario.getText(); //
+        String contrasena = txtContraseña.getText(); //
+        String telefono = txtTelefono.getText(); //
+        String direccion = txtDireccion.getText(); //
+
+        // (Validación simple, puedes mejorarla)
+        if (nombreUsuario.isEmpty() || contrasena.isEmpty() || email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nombre de usuario, contraseña y email son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 2. Crear la entidad Usuario
+        Usuario nuevoCliente = new Usuario();
+        nuevoCliente.setNombreUsuario(nombreUsuario);
+
+        // --- ¡¡ADVERTENCIA DE SEGURIDAD!! ---
+        // NUNCA guardes contraseñas en texto plano.
+        // Debes usar una librería como BCrypt para "hashear" la contraseña.
+        // Por ahora, para que funcione, la guardamos como texto, 
+        // pero esto debe cambiarse.
+        nuevoCliente.setContrasenaHash(contrasena);
+
+        nuevoCliente.setRol(RolUsuario.CLIENTE);
+        nuevoCliente.setNombreCompleto(nombreCompleto);
+        nuevoCliente.setEmail(email);
+        nuevoCliente.setTelefono(telefono);
+        nuevoCliente.setDireccion(direccion);
+
+        // 3. Llamar al repositorio para guardar
+        usuarioRepo.guardar(nuevoCliente);
+
+        // 4. Dar feedback al usuario
+        JOptionPane.showMessageDialog(this, "¡Usuario registrado con éxito!", "Registro Completo", JOptionPane.INFORMATION_MESSAGE);
+
+        // 5. (Opcional) Abrir la ventana de login y cerrar esta
+        new UserLogin().setVisible(true);
+        this.dispose();
+
+    } catch (Exception e) {
+        logger.log(java.util.logging.Level.SEVERE, "Error al registrar usuario", e);
+        JOptionPane.showMessageDialog(this, "Error al registrar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnRegistrarCuentaActionPerformed
 
     /**
