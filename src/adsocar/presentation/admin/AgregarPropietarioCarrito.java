@@ -6,16 +6,16 @@ package adsocar.presentation.admin;
 
 /**
  *
- * @author USER
+ * @author Isacc
  */
-public class AddVehiculo extends javax.swing.JFrame {
+public class AgregarPropietarioCarrito extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddVehiculo.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AgregarPropietarioCarrito.class.getName());
 
     /**
-     * Creates new form AddVehiculo
+     * Creates new form AgregarPropietarioCarrito
      */
-    public AddVehiculo() {
+    public AgregarPropietarioCarrito() {
         initComponents();
     }
 
@@ -33,20 +33,17 @@ public class AddVehiculo extends javax.swing.JFrame {
         logoadsocar1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        txtMarca = new javax.swing.JTextField();
-        txtModelo = new javax.swing.JTextField();
-        txtAño = new javax.swing.JTextField();
-        txtKilometraje = new javax.swing.JTextField();
-        txtPropietario = new javax.swing.JTextField();
-        btnAñadirVehiculo = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        btnAñadirImagen = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
+        btnRegistrarPropietario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,78 +83,48 @@ public class AddVehiculo extends javax.swing.JFrame {
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 490));
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel3.setText("Ingreso de Datos ");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 320, 40));
+        jLabel3.setText("Ingresar Datos de Propietario");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 340, 40));
+        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 110, 190, 40));
+        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 330, 190, 40));
+        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, 190, 40));
 
-        jLabel1.setText("Diligencia los campos de texto para añadir nuevos vehiculos");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, -1, -1));
-        jPanel1.add(txtMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, 230, 50));
+        jLabel1.setText("Correo electrónico propietario");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 310, -1, -1));
 
-        txtModelo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtModeloActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 230, 50));
-        jPanel1.add(txtAño, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 340, 230, 50));
+        jLabel2.setText("Numero de documento propietario");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, -1, -1));
 
-        txtKilometraje.setText(" ");
-        jPanel1.add(txtKilometraje, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 140, 200, 50));
-        jPanel1.add(txtPropietario, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 240, 200, 50));
+        jLabel4.setText("Numero de telefono propietario");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, -1, -1));
+        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 110, 190, 40));
 
-        btnAñadirVehiculo.setBackground(new java.awt.Color(0, 102, 204));
-        btnAñadirVehiculo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnAñadirVehiculo.setForeground(new java.awt.Color(255, 255, 255));
-        btnAñadirVehiculo.setText("AÑADIR VEHICULO");
-        jPanel1.add(btnAñadirVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 430, 220, 50));
+        jLabel6.setText("Nombre propietario");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, -1, -1));
+        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 220, 190, 40));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Adjunta fotos del vehiculo");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 310, -1, -1));
+        jLabel7.setText("Dirección ");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 200, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setText("Marca del Vehiculo");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, -1, -1));
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setText("Modelo del Vehiculo");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, -1, -1));
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setText("Año del Vehiculo");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, -1, -1));
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setText("Kilometraje del Vehiculo");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 110, -1, -1));
-
-        btnAñadirImagen.setBackground(new java.awt.Color(0, 102, 204));
-        btnAñadirImagen.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        btnAñadirImagen.setForeground(new java.awt.Color(255, 255, 255));
-        btnAñadirImagen.setText("+");
-        jPanel1.add(btnAñadirImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, 200, 50));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setText("Propietario del Vehiculo");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 210, -1, -1));
+        btnRegistrarPropietario.setBackground(new java.awt.Color(0, 102, 204));
+        btnRegistrarPropietario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegistrarPropietario.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrarPropietario.setText("Añadir Propietario");
+        jPanel1.add(btnRegistrarPropietario, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 410, 220, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 906, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtModeloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtModeloActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,12 +148,11 @@ public class AddVehiculo extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new AddVehiculo().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new AgregarPropietarioCarrito().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAñadirImagen;
-    private javax.swing.JButton btnAñadirVehiculo;
+    private javax.swing.JButton btnRegistrarPropietario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -194,15 +160,13 @@ public class AddVehiculo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     private javax.swing.JLabel logoadsocar1;
-    private javax.swing.JTextField txtAño;
-    private javax.swing.JTextField txtKilometraje;
-    private javax.swing.JTextField txtMarca;
-    private javax.swing.JTextField txtModelo;
-    private javax.swing.JTextField txtPropietario;
     // End of variables declaration//GEN-END:variables
 }
