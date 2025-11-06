@@ -3,6 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.admin;
+import adsocar.domain.entities.Propietario;
+import adsocar.domain.entities.Vehiculo;
+import adsocar.domain.repositories.IPropietarioRepository;
+import adsocar.domain.repositories.IVehiculoRepository;
+import adsocar.infrastructure.repositories.PropietarioRepositoryImpl;
+import adsocar.infrastructure.repositories.VehiculoRepositoryImpl;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,14 +23,194 @@ package adsocar.presentation.admin;
 public class AddVehiculo extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AddVehiculo.class.getName());
-
+    private IVehiculoRepository vehiculoRepo;
+    private List<String> rutasImagenesSeleccionadas;
+    private IPropietarioRepository propietarioRepo;
     /**
      * Creates new form AddVehiculo
      */
+    
+    private class PropietarioItem {
+        private int id;
+        private String nombre;
+
+        public PropietarioItem(int id, String nombre) {
+            this.id = id;
+            this.nombre = nombre;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        @Override
+        public String toString() {
+            // Esto es lo que verá el usuario en el ComboBox
+            return nombre; 
+        }
+    }
+    
     public AddVehiculo() {
         initComponents();
-    }
+     // 1. Instanciar repositorios
+        this.vehiculoRepo = new VehiculoRepositoryImpl();
+        this.propietarioRepo = new PropietarioRepositoryImpl(); // Instanciamos el nuevo repo
+        this.rutasImagenesSeleccionadas = new ArrayList<>();
 
+        // 2. Conectar el botón "AÑADIR VEHICULO"
+        btnAñadirVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirVehiculoActionPerformed(evt);
+            }
+        });
+        
+        // 3. Conectar el botón "AÑADIR IMAGEN"
+        btnAñadirImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirImagenActionPerformed(evt);
+            }
+        });
+        
+        // 4. Estilos de botones
+        btnAñadirVehiculo.setOpaque(true);
+        btnAñadirVehiculo.setContentAreaFilled(true);
+        btnAñadirVehiculo.setBorderPainted(false);
+        btnAñadirVehiculo.setFocusPainted(false);
+        
+        btnAñadirImagen.setOpaque(true);
+        btnAñadirImagen.setContentAreaFilled(true);
+        btnAñadirImagen.setBorderPainted(false);
+        btnAñadirImagen.setFocusPainted(false);
+        
+        // 5. Cargar los propietarios en el ComboBox
+        cargarPropietarios();
+    }
+    
+    private void cargarPropietarios() {
+        // Usamos un DefaultComboBoxModel para manejar los items
+        DefaultComboBoxModel<PropietarioItem> model = new DefaultComboBoxModel<>();
+        
+        try {
+            List<Propietario> propietarios = propietarioRepo.obtenerTodos();
+            
+            if (propietarios.isEmpty()) {
+                model.addElement(new PropietarioItem(0, "No hay propietarios registrados"));
+            } else {
+                for (Propietario p : propietarios) {
+                    // Añadimos un PropietarioItem por cada propietario
+                    model.addElement(new PropietarioItem(p.getId(), p.getNombreCompleto()));
+                }
+            }
+            
+            // Asignamos el modelo al ComboBox
+            comboBoxPropietario.setModel(model);
+            
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al cargar propietarios", e);
+            // Limpiamos el modelo y añadimos un item de error
+            model.removeAllElements();
+            model.addElement(new PropietarioItem(0, "Error al cargar"));
+            comboBoxPropietario.setModel(model);
+        }
+    }
+    
+    private void btnAñadirImagenActionPerformed(java.awt.event.ActionEvent evt) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setMultiSelectionEnabled(true); 
+        
+        int result = fileChooser.showOpenDialog(this);
+        
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File[] files = fileChooser.getSelectedFiles();
+            
+            for (File file : files) {
+                String path = file.getAbsolutePath();
+                this.rutasImagenesSeleccionadas.add(path);
+                System.out.println("Imagen añadida: " + path);
+            }
+            
+            JOptionPane.showMessageDialog(this, 
+                files.length + " imagen(es) añadida(s) con éxito.", 
+                "Imágenes Cargadas", 
+                JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+        
+   private void btnAñadirVehiculoActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            // 1. Recoger datos de los campos de texto
+            String marca = txtMarca.getText();
+            String modelo = txtModelo.getText();
+            
+            // 2. Validar que los campos no estén vacíos
+            if (marca.isEmpty() || modelo.isEmpty() || txtAño1.getText().isEmpty() ||
+                txtKilometraje.getText().trim().isEmpty() || txtPrecioVehiculo.getText().isEmpty()) {
+                
+                JOptionPane.showMessageDialog(this, "Todos los campos de texto son obligatorios.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 3. Validar el ComboBox
+            Object selectedItem = comboBoxPropietario.getSelectedItem();
+            if (selectedItem == null || !(selectedItem instanceof PropietarioItem)) {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un propietario.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // 4. Convertir los datos numéricos (con manejo de errores)
+            int anio = Integer.parseInt(txtAño1.getText()); // Usamos txtAño1
+            int kilometraje = Integer.parseInt(txtKilometraje.getText().trim());
+            double precio = Double.parseDouble(txtPrecioVehiculo.getText()); // Usamos txtPrecioVehiculo
+            
+            // 5. Obtener el ID del Propietario desde el ComboBox
+            PropietarioItem pi = (PropietarioItem) selectedItem;
+            int propietarioId = pi.getId();
+            
+            if (propietarioId == 0) { // ID 0 es el item de "Error" o "No hay"
+                 JOptionPane.showMessageDialog(this, "Debe seleccionar un propietario válido.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 6. Crear la entidad Vehiculo
+            Vehiculo vehiculo = new Vehiculo();
+            vehiculo.setMarca(marca);
+            vehiculo.setModelo(modelo);
+            vehiculo.setAnio(anio);
+            vehiculo.setPrecio(precio); // ¡Ya usamos el campo de precio!
+            vehiculo.setKilometraje(kilometraje);
+            vehiculo.setPropietarioId(propietarioId); // ¡Ya usamos el ID del ComboBox!
+            
+            // 7. Añadir las listas de rutas (imágenes y videos)
+            vehiculo.setRutasImagenes(this.rutasImagenesSeleccionadas);
+            vehiculo.setRutasVideos(new ArrayList<>()); // Asumimos que no hay videos por ahora
+
+            // 8. Guardar en la base de datos
+            vehiculoRepo.guardar(vehiculo);
+            
+            // 9. Dar feedback y regresar
+            JOptionPane.showMessageDialog(this, 
+                "Vehículo guardado con éxito.", 
+                "Registro Completo", 
+                JOptionPane.INFORMATION_MESSAGE);
+            
+            // Volver a la pantalla de vehículos
+            new AdminScreenVehiculos().setVisible(true);
+            this.dispose();
+
+        } catch (NumberFormatException e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error de formato numérico", e);
+            JOptionPane.showMessageDialog(this, 
+                "Error: 'Año', 'Kilometraje' y 'Precio' deben ser números válidos.", 
+                "Error de Formato", 
+                JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error al guardar el vehículo", e);
+            JOptionPane.showMessageDialog(this, 
+                "Error al guardar el vehículo: " + e.getMessage(), 
+                "Error de Base de Datos", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,9 +228,8 @@ public class AddVehiculo extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
         txtModelo = new javax.swing.JTextField();
-        txtAño = new javax.swing.JTextField();
+        txtPrecioVehiculo = new javax.swing.JTextField();
         txtKilometraje = new javax.swing.JTextField();
-        txtPropietario = new javax.swing.JTextField();
         btnAñadirVehiculo = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -47,6 +238,9 @@ public class AddVehiculo extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         btnAñadirImagen = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        comboBoxPropietario = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        txtAño1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,19 +285,18 @@ public class AddVehiculo extends javax.swing.JFrame {
 
         jLabel1.setText("Diligencia los campos de texto para añadir nuevos vehiculos");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, -1, -1));
-        jPanel1.add(txtMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, 230, 50));
+        jPanel1.add(txtMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, 230, 30));
 
         txtModelo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtModeloActionPerformed(evt);
             }
         });
-        jPanel1.add(txtModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 230, 50));
-        jPanel1.add(txtAño, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 340, 230, 50));
+        jPanel1.add(txtModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, 230, 30));
+        jPanel1.add(txtPrecioVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 390, 230, 30));
 
         txtKilometraje.setText(" ");
-        jPanel1.add(txtKilometraje, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 140, 200, 50));
-        jPanel1.add(txtPropietario, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 240, 200, 50));
+        jPanel1.add(txtKilometraje, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 140, 200, 40));
 
         btnAñadirVehiculo.setBackground(new java.awt.Color(0, 102, 204));
         btnAñadirVehiculo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -121,11 +314,11 @@ public class AddVehiculo extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Modelo del Vehiculo");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 190, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setText("Año del Vehiculo");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, -1, -1));
+        jLabel7.setText("Precio del vehiculo");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 360, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Kilometraje del Vehiculo");
@@ -140,6 +333,12 @@ public class AddVehiculo extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setText("Propietario del Vehiculo");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 210, -1, -1));
+        jPanel1.add(comboBoxPropietario, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 240, 190, -1));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel10.setText("Año del Vehiculo");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 280, -1, -1));
+        jPanel1.add(txtAño1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, 230, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -187,7 +386,9 @@ public class AddVehiculo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAñadirImagen;
     private javax.swing.JButton btnAñadirVehiculo;
+    private javax.swing.JComboBox<PropietarioItem> comboBoxPropietario;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -199,10 +400,10 @@ public class AddVehiculo extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel logoadsocar1;
-    private javax.swing.JTextField txtAño;
+    private javax.swing.JTextField txtAño1;
     private javax.swing.JTextField txtKilometraje;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtModelo;
-    private javax.swing.JTextField txtPropietario;
+    private javax.swing.JTextField txtPrecioVehiculo;
     // End of variables declaration//GEN-END:variables
 }

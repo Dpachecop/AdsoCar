@@ -8,6 +8,7 @@ import adsocar.domain.enums.RolUsuario;
 import adsocar.domain.repositories.IUsuarioRepository;
 import adsocar.infrastructure.repositories.UsuarioRepositoryImpl;
 import javax.swing.JOptionPane;
+import adsocar.presentation.login.user.UserLogin;
 /**
  *
  * @author danielpacheco
@@ -30,7 +31,21 @@ public class UserRegisterScreen extends javax.swing.JFrame {
         btnRegistrarCuenta.setContentAreaFilled(true);
         btnRegistrarCuenta.setBorderPainted(false); // Sin borde visual
         btnRegistrarCuenta.setFocusPainted(false);
+        
+        
+        linkIniciarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                linkIniciarSesionMouseClicked(evt);
+            }
+        });
+        
         this.usuarioRepo = new UsuarioRepositoryImpl();
+    }
+    
+    private void linkIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {
+         new UserLogin().setVisible(true); // Abre la ventana de login
+         this.dispose(); // Cierra esta ventana
     }
 
     /**

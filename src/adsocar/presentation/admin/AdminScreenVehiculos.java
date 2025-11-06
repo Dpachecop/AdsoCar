@@ -3,7 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.admin;
-
+import adsocar.presentation.admin.AddVehiculo;
+import adsocar.presentation.admin.AdminScreen;// Para el botón Salir
+import adsocar.presentation.admin.MenuAdminGestion;
 /**
  *
  * @author USER
@@ -17,8 +19,67 @@ public class AdminScreenVehiculos extends javax.swing.JFrame {
      */
     public AdminScreenVehiculos() {
         initComponents();
+        
+        btnAñadirVehiculos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirVehiculosActionPerformed(evt);
+            }
+        });
+        
+        // Botón "SALIR"
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+        
+        btnUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsuariosActionPerformed(evt);
+            }
+        });
+        
+        // Estilos para los botones
+        btnAñadirVehiculos.setOpaque(true);
+        btnAñadirVehiculos.setContentAreaFilled(true);
+        btnAñadirVehiculos.setBorderPainted(false);
+        btnAñadirVehiculos.setFocusPainted(false);
+        
+        btnSalir.setOpaque(true);
+        btnSalir.setContentAreaFilled(true);
+        btnSalir.setBorderPainted(false);
+        btnSalir.setFocusPainted(false);
+        
+        btnUsuarios.setOpaque(true);
+        btnUsuarios.setContentAreaFilled(true);
+        btnUsuarios.setBorderPainted(false);
+        btnUsuarios.setFocusPainted(false);
+        
+        btnEditarInfo.setOpaque(true);
+        btnEditarInfo.setContentAreaFilled(true);
+        btnEditarInfo.setBorderPainted(false);
+        btnEditarInfo.setFocusPainted(false);
+        
+        btnEliminarV.setOpaque(true);
+        btnEliminarV.setContentAreaFilled(true);
+        btnEliminarV.setBorderPainted(false);
+        btnEliminarV.setFocusPainted(false);
     }
-
+    
+    private void btnAñadirVehiculosActionPerformed(java.awt.event.ActionEvent evt) {
+        new AddVehiculo().setVisible(true);
+        this.dispose(); 
+    }
+    
+    
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {
+        new AdminScreen().setVisible(true); // Vuelve a la pantalla principal de Admin
+        this.dispose();
+    }
+private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {
+        new MenuAdminGestion().setVisible(true); // Va a la gestión de usuarios
+        this.dispose();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

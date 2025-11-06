@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package adsocar.presentation.admin;
-
+import adsocar.presentation.admin.MenuAdminGestion;
+import adsocar.presentation.admin.AdminScreenVehiculos;
+import adsocar.presentation.admin.MenuAdminGestion;
+import adsocar.presentation.admin.AdminScreenVehiculos;
 /**
  *
  * @author danielpacheco
@@ -17,8 +20,56 @@ public class AdminScreen extends javax.swing.JFrame {
      */
     public AdminScreen() {
         initComponents();
+     
+        
+        // --- CÓDIGO AÑADIDO (ESTILOS) ---
+        
+        // Estilo Botón "Ver todos los usuarios"
+        btnVerTodosLosUsuarios.setOpaque(true);
+        btnVerTodosLosUsuarios.setContentAreaFilled(true);
+        btnVerTodosLosUsuarios.setBorderPainted(false);
+        btnVerTodosLosUsuarios.setFocusPainted(false);
+        
+        // Estilo Botón "Ver catálogo"
+        btnVerCatalogo.setOpaque(true);
+        btnVerCatalogo.setContentAreaFilled(true);
+        btnVerCatalogo.setBorderPainted(false);
+        btnVerCatalogo.setFocusPainted(false);
+        
+        // Estilo Botón "Añadir vehiculo"
+        btnAñadirVehiculo.setOpaque(true);
+        btnAñadirVehiculo.setContentAreaFilled(true);
+        btnAñadirVehiculo.setBorderPainted(false);
+        btnAñadirVehiculo.setFocusPainted(false);
+        
+        
+        btnVerTodosLosUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerTodosLosUsuariosActionPerformed(evt);
+            }
+        });
+        
+        // Botón "Añadir vehiculo"
+        // Según tu solicitud, este botón abre AdminScreenVehiculos.
+        btnAñadirVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirVehiculoActionPerformed(evt);
+            }
+        });
+    }
+    
+    
+
+    private void btnVerTodosLosUsuariosActionPerformed(java.awt.event.ActionEvent evt) {
+        new MenuAdminGestion().setVisible(true);
+        this.dispose();
     }
 
+    private void btnAñadirVehiculoActionPerformed(java.awt.event.ActionEvent evt) {
+        // Según tu solicitud, este botón abre AdminScreenVehiculos
+        new AdminScreenVehiculos().setVisible(true);
+        this.dispose();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,7 +90,7 @@ public class AdminScreen extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        btnVerTodosLosUsuarios1 = new javax.swing.JButton();
+        btnVerTodosLosUsuarios = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         btnAñadirVehiculo = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -114,11 +165,11 @@ public class AdminScreen extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adsocar/assets/user_84308.png"))); // NOI18N
         jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, 30));
 
-        btnVerTodosLosUsuarios1.setBackground(new java.awt.Color(51, 153, 255));
-        btnVerTodosLosUsuarios1.setForeground(new java.awt.Color(255, 255, 255));
-        btnVerTodosLosUsuarios1.setText("Ver todos los usuarios");
-        btnVerTodosLosUsuarios1.setName("btnVerUsuarios"); // NOI18N
-        jPanel3.add(btnVerTodosLosUsuarios1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 150, 33));
+        btnVerTodosLosUsuarios.setBackground(new java.awt.Color(51, 153, 255));
+        btnVerTodosLosUsuarios.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerTodosLosUsuarios.setText("Ver todos los usuarios");
+        btnVerTodosLosUsuarios.setName("btnVerUsuarios"); // NOI18N
+        jPanel3.add(btnVerTodosLosUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 150, 33));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 390, 280));
 
@@ -233,7 +284,7 @@ public class AdminScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarPropietario;
     private javax.swing.JButton btnAñadirVehiculo;
     private javax.swing.JButton btnVerCatalogo;
-    private javax.swing.JButton btnVerTodosLosUsuarios1;
+    private javax.swing.JButton btnVerTodosLosUsuarios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
